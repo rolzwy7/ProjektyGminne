@@ -1,0 +1,2 @@
+# ProjektyGminne
+Projekt - Inżynieria Oprogramowania
