@@ -1,0 +1,3 @@
+@echo off
+echo ProjektyGminne - Starting dev server...
+python ProjektyGminne\manage.py runserver

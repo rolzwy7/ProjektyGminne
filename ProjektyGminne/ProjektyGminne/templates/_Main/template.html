@@ -1,0 +1,16 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="pl" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'bootstrap4/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap4/jquery-3.3.1.slim.min.js' %}" charset="utf-8"></script>
+    <script src="{% static 'bootstrap4/popper.min.js' %}" charset="utf-8"></script>
+    <script src="{% static 'bootstrap4/bootstrap.min.js' %}" charset="utf-8"></script>
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <p>Główny szablon  - dziedziczony z ProjektyGminne/templates/_Main/template.html</p>
+    {% block content %}{% endblock %}
+  </body>
+</html>
