@@ -3,13 +3,25 @@
 <html lang="pl" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="{% static 'bootstrap4/bootstrap.min.css' %}">
     <script src="{% static 'bootstrap4/jquery-3.3.1.slim.min.js' %}" charset="utf-8"></script>
     <script src="{% static 'bootstrap4/popper.min.js' %}" charset="utf-8"></script>
     <script src="{% static 'bootstrap4/bootstrap.min.js' %}" charset="utf-8"></script>
+    <!-- Bootstrap End -->
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" href="{% static 'font-awesome/all.min.css' %}">
+    <script src="{% static 'font-awesome/all.min.js' %}" charset="utf-8"></script>
+    <!-- Font-Awesome End -->
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
+    <p>
+      Test ikony:
+      <i class="fas fa-keyboard"></i>
+      <i class="fas fa-laptop"></i>
+      <i class="fas fa-sd-card"></i>
+    </p>
     <p>Główny szablon  - dziedziczony z ProjektyGminne/templates/_Main/template.html</p>
     {% block content %}{% endblock %}
   </body>
