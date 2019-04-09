@@ -2,6 +2,9 @@
 Aplikacja internetowa umożliwiająca mieszkańcom gminy głosowanie na wybrane projekty gminne, prowadzone w ramach konkursów organizowanych przez władze gminy.
 
 * * *
+MS
+* * *
+
 ## Zawartość
 - [Założenia projektowe](#założenia-projektowe)
 - [Do zrobienia](#do-zrobienia)
