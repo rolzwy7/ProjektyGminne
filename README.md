@@ -2,7 +2,7 @@
 Aplikacja internetowa umożliwiająca mieszkańcom gminy głosowanie na wybrane projekty gminne, prowadzone w ramach konkursów organizowanych przez władze gminy.
 
 * * *
-MS
+MSMSMS
 * * *
 
 ## Zawartość
