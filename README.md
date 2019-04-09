@@ -103,3 +103,4 @@ Hasło: 123456789
 - Bootstrap 4
 - JQuery 3
 - PopperJS
+- PYTHON 3
