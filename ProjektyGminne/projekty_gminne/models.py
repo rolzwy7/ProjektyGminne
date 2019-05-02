@@ -1,5 +1,11 @@
 from django.db import models
 
+CURRENCY = (
+    ('PLN', 'PLN'),
+    ('USD', 'USD'),
+    ('EUR', 'EUR')
+)
+
 
 class Konkurs(models.Model):
     class Meta:
@@ -44,20 +50,22 @@ class Projekt(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     konkurs_id = models.ForeignKey(
-        'Konkurs', null=False, on_delete=models.CASCADE)
+        'Konkurs', on_delete=models.CASCADE)
     dzielnica_id = models.ForeignKey(
         'Dzielnica', null=False, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=256, null=False)
 
+    instytucja_wdrazajaca = models.CharField(max_length=256, null=False)
+    wnioskodawca = models.CharField(max_length=128, null=False)
+
     # okres realizacji
-    rl_from = models.DateTimeField(null=False)
-    rl_to = models.DateTimeField(null=False)
+    okres_realizacji_od = models.DateField(null=False)
+    okres_realizacji_do = models.DateField(null=False)
 
-    name = models.CharField(max_length=22, null=False)
-
-    project_value = models.DecimalField(max_digits=6, decimal_places=2)
-    project_funds = models.DecimalField(max_digits=6, decimal_places=2)
+    wartosc_projektu = models.CharField(max_length=32)
+    kwota_dofinansowania = models.CharField(max_length=32)
+    waluta = models.CharField(choices=CURRENCY, max_length=3, default="PLN")
 
     attachment = models.FileField(upload_to='attachments/projects')
 

@@ -13,7 +13,7 @@ router.register(r'gmina', views.GminaViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('projekty/', include('projekty_gminne.urls')),
+    path('konkursy/', include('projekty_gminne.urls')),
 
     path('api/q/', include(router.urls)),
     path('api/', include('rest_framework.urls', namespace='rest_framework')),
