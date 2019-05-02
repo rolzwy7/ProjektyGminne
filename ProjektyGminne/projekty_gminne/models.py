@@ -19,6 +19,9 @@ class Gmina(models.Model):
 
     name = models.CharField(max_length=128, null=False)
 
+    def __str__(self):
+        return self.name
+
 
 class Dzielnica(models.Model):
     class Meta:
@@ -26,9 +29,12 @@ class Dzielnica(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
-    projekt_id = models.ForeignKey(
+    gmina_id = models.ForeignKey(
         'Gmina', null=False, on_delete=models.CASCADE)
     name = models.CharField(max_length=128, null=False)
+
+    def __str__(self):
+        return self.name
 
 
 class Projekt(models.Model):
@@ -44,6 +50,7 @@ class Projekt(models.Model):
 
     name = models.CharField(max_length=256, null=False)
 
+    # okres realizacji
     rl_from = models.DateTimeField(null=False)
     rl_to = models.DateTimeField(null=False)
 
@@ -65,3 +72,18 @@ class Glos(models.Model):
 
     projekt_id = models.ForeignKey(
         'Projekt', null=False, on_delete=models.CASCADE)
+
+
+# Symulacja API
+class ApiMockData(models.Model):
+    class Meta:
+        verbose_name_plural = "ApiMockData"
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    dzielnica_id = models.ForeignKey(
+        'Dzielnica', null=False, on_delete=models.CASCADE)
+    pesel = models.CharField(max_length=11, null=False)
+
+    def __str__(self):
+        return self.pesel

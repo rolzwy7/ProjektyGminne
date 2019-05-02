@@ -1,5 +1,101 @@
 {% extends '_Main/template.html' %}
-{% block title %}Strona główna{% endblock %}
+{% block title %}Projekty Gminne - Strona główna{% endblock %}
 {% block content %}
-<p>Strona główna - dziedziczona z ProjektyGminne/templates/_Main/homepage.html</p>
+
+{% include '_Main/homepage_stats.html' %}
+
+<div class="columns">
+<div class="column is-mobile">
+  <h1 class="subtitle" style="margin: 0px 20px;">
+    <i class="fas fa-calendar-alt"></i>
+    <b>Ostanio dodane konkursy</b>
+  </h1>
+
+  <article class="media" style="margin: 0px 20px;">
+  <div class="media-content">
+    <div class="content">
+      <p>
+        <strong>
+          <a href="#">nazwa_konkursu</a>
+        </strong>
+        <small>| dodano: ilosc_dni_temu_js</small>
+        <br>
+        <small>Dzielnica: <a href="#">dzielnica</a></small>
+        <br>
+        opis_konkursu
+        <br>
+
+      </p>
+    </div>
+    <nav class="level is-mobile">
+      <div class="level-left">
+        <a class="level-item">
+          <a class="button is-small is-fullwidth is-warning">
+            <i class="fas fa-link"></i>&nbsp;Lista projektów
+          </a>
+        </a>
+        <a class="level-item">
+          <a href="https://twitter.com" class="button is-small is-fullwidth">
+            <i class="fab fa-twitter"></i>&nbsp;Retweet
+          </a>
+        </a>
+        <a class="level-item">
+          <a href="https://twitter.com" class="button is-small is-fullwidth">
+            <i class="fab fa-facebook"></i>&nbsp;Udostępnij
+          </a>
+        </a>
+      </div>
+    </nav>
+  </div>
+  </article>
+</div>
+
+<div class="column is-mobile">
+  <h1 class="subtitle" style="margin: 0px 20px;">
+    <i class="fas fa-trophy"></i>
+    <b>Ostanio zakończone konkursy</b>
+  </h1>
+
+  <article class="media" style="margin: 0px 20px;">
+  <div class="media-content">
+    <div class="content">
+      <p>
+        <strong>
+          <a href="#">nazwa_konkursu</a>
+        </strong>
+        <small>| dodano: ilosc_dni_temu_js</small>
+        <br>
+        <small>Dzielnica: <a href="#">dzielnica</a></small>
+        <br>
+        opis_konkursu
+        <br>
+
+      </p>
+    </div>
+    <nav class="level is-mobile">
+      <div class="level-left">
+        <a class="level-item">
+          <a class="button is-small is-info is-fullwidth">
+            <i class="fas fa-chart-area"></i>&nbsp;Zobacz wyniki
+          </a>
+        </a>
+        <a class="level-item">
+          <a href="https://twitter.com" class="button is-small is-fullwidth">
+            <i class="fab fa-twitter"></i>&nbsp;Retweet
+          </a>
+        </a>
+        <a class="level-item">
+          <a href="https://twitter.com" class="button is-small is-fullwidth">
+            <i class="fab fa-facebook"></i>&nbsp;Udostępnij
+          </a>
+        </a>
+      </div>
+    </nav>
+  </div>
+  </article>
+</div>
+
+</div>
+
+
 {% endblock %}

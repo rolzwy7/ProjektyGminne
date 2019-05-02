@@ -3,12 +3,13 @@
 <html lang="pl" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/ico" sizes="32x32">
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="{% static 'bootstrap4/bootstrap.min.css' %}">
-    <script src="{% static 'bootstrap4/jquery-3.3.1.slim.min.js' %}" charset="utf-8"></script>
-    <script src="{% static 'bootstrap4/popper.min.js' %}" charset="utf-8"></script>
-    <script src="{% static 'bootstrap4/bootstrap.min.js' %}" charset="utf-8"></script>
+    <link rel="stylesheet" href="{% static 'bulma-0.7.4/css/bulma.min.css' %}">
     <!-- Bootstrap End -->
+    <!-- Jquery -->
+    <script src="{% static 'jquery/jquery.min.js' %}" charset="utf-8"></script>
+    <!-- Jquery End -->
     <!-- Font-Awesome -->
     <link rel="stylesheet" href="{% static 'font-awesome/all.min.css' %}">
     <script src="{% static 'font-awesome/all.min.js' %}" charset="utf-8"></script>
@@ -16,13 +17,101 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
-    <p>
-      Test ikony:
-      <i class="fas fa-keyboard"></i>
-      <i class="fas fa-laptop"></i>
-      <i class="fas fa-sd-card"></i>
-    </p>
-    <p>Główny szablon  - dziedziczony z ProjektyGminne/templates/_Main/template.html</p>
-    {% block content %}{% endblock %}
+    <div class="container">
+    <!-- Logo -->
+    <div class="columns is-mobile is-centered is-hidden-mobile">
+      <div class="column is-half">
+        <article class="media has-text-centered">
+          <figure class="media-left">
+            <p class="image is-64x64">
+              <img src="{% static 'herb_warsaw.png' %}">
+            </p>
+          </figure>
+          <div class="media-content">
+            <div class="content">
+              <h1 class="title">
+                Projekty Gminne
+              </h1>
+              <h5 class="subtitle">Warszawa</h5>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+    <!-- Logo End -->
+    <!-- Menu -->
+      <div class="columns">
+        <div class="column is-mobile">
+            <nav class="navbar is-white">
+              <!-- Brand -->
+              <div class="navbar-brand">
+                <a class="navbar-item is-hidden-tablet">
+                <img src="{% static 'herb_warsaw.png' %}" width="19" height="28" style="margin-right: 7px!important;">
+                <h5><b>Projekty Gminne</b> - Warszawa</h5>
+                </a>
+
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarDropdownMenu">
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                </a>
+              </div>
+              <!-- Brand End -->
+              <div id="navbarDropdownMenu" class="navbar-menu">
+                <div class="navbar-start">
+                  <!-- Homepage -->
+                  <a href="{% url 'homepage' %}" class="navbar-item">
+                    Strona główna
+                  </a>
+                  <!-- Homepage End -->
+                  <!-- Konkursy dropdown -->
+                  <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">Konkursy</a>
+                    <div class="navbar-dropdown">
+                      <a class="navbar-item">Aktywne</a>
+                      <a class="navbar-item">Zakończone</a>
+                      <hr class="navbar-divider">
+                      <a class="navbar-item">Wszystkie</a>
+                    </div>
+                  </div>
+                  <!-- Konkursy dropdown End -->
+                  <!-- Lista projektów -->
+                  <a href="#" class="navbar-item">
+                    Lista projektów
+                  </a>
+                  <!-- Lista projektów End -->
+                </div>
+                <div class="navbar-end">
+                  <a target="_blank" href="https://www.instagram.com" class="navbar-item">
+                    <i class="fab fa-instagram"></i>
+                    <span class="is-hidden-desktop">&nbsp;Instagram</span>
+                  </a>
+                  <a target="_blank" href="https://www.youtube.com" class="navbar-item">
+                    <i class="fab fa-youtube"></i>
+                    <span class="is-hidden-desktop">&nbsp;YouTube</span>
+                  </a>
+                  <a target="_blank" href="https://twitter.com" class="navbar-item">
+                    <i class="fab fa-twitter"></i>
+                    <span class="is-hidden-desktop">&nbsp;Twitter</span>
+                  </a>
+                  <a target="_blank" href="https://facebook.com" class="navbar-item">
+                    <i class="fab fa-facebook-square"></i>
+                    <span class="is-hidden-desktop">&nbsp;Facebook</span>
+                  </a>
+                </div>
+              </div>
+            </nav>
+            <hr class="is-marginless">
+        </div>
+      </div>
+      <!-- Menu End -->
+    </div>
+    <div class="container" style="margin-top: 8px;">
+      <!-- Content -->
+        {% block content %}{% endblock %}
+      <!-- Content End -->
+    </div>
+    {% include '_Main/footer.html' %}
   </body>
+  <script src="{% static 'js/template.js' %}" charset="utf-8"></script>
 </html>
