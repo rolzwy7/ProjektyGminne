@@ -31,4 +31,6 @@ class Homepage(generic.View):
 
     @method_decorator(require_GET)
     def get(self, request):
-        return render(request, self.template_name, {})
+        data = {}
+        data["test_data"] = list(range(5))
+        return render(request, self.template_name, {"data": data})

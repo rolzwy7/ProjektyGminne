@@ -49,8 +49,10 @@ class Projekt(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
+    widocznosc = models.BooleanField(default=False)
+
     konkurs_id = models.ForeignKey(
-        'Konkurs', on_delete=models.CASCADE)
+        'Konkurs', null=True, blank=True, on_delete=models.CASCADE)
     dzielnica_id = models.ForeignKey(
         'Dzielnica', null=False, on_delete=models.CASCADE)
 

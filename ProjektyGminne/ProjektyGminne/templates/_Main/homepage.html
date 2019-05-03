@@ -10,8 +10,8 @@
     <i class="fas fa-calendar-alt"></i>
     <b>Ostanio dodane konkursy</b>
   </h1>
-
-  <article class="media" style="margin: 0px 20px;">
+  {% for elem in data.test_data %}
+  <article class="media" style="margin: 20px 20px;">
   <div class="media-content">
     <div class="content">
       <p>
@@ -24,7 +24,6 @@
         <br>
         opis_konkursu
         <br>
-
       </p>
     </div>
     <nav class="level is-mobile">
@@ -48,6 +47,7 @@
     </nav>
   </div>
   </article>
+  {% endfor %}
 </div>
 
 <div class="column is-mobile">
@@ -55,15 +55,15 @@
     <i class="fas fa-trophy"></i>
     <b>Ostanio zakończone konkursy</b>
   </h1>
-
-  <article class="media" style="margin: 0px 20px;">
+  {% for elem in data.test_data %}
+  <article class="media" style="margin: 20px 20px;">
   <div class="media-content">
     <div class="content">
       <p>
         <strong>
           <a href="#">nazwa_konkursu</a>
         </strong>
-        <small>| dodano: ilosc_dni_temu_js</small>
+        <small>| zakończono: ilosc_dni_temu_js</small>
         <br>
         <small>Dzielnica: <a href="#">dzielnica</a></small>
         <br>
@@ -93,6 +93,7 @@
     </nav>
   </div>
   </article>
+  {% endfor %}
 </div>
 
 </div>
