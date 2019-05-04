@@ -14,9 +14,20 @@
     <link rel="stylesheet" href="{% static 'font-awesome/all.min.css' %}">
     <script src="{% static 'font-awesome/all.min.js' %}" charset="utf-8"></script>
     <!-- Font-Awesome End -->
+    <!-- Angular -->
+    <script src="{% static 'angular/angular.min.js' %}" charset="utf-8"></script>
     <title>{% block title %}{% endblock %}</title>
+    <script type="text/javascript">
+    var app = angular.module('ProjektyGminneApp', []);
+      app.config(['$interpolateProvider', function($interpolateProvider) {
+      $interpolateProvider.startSymbol('{a');
+      $interpolateProvider.endSymbol('a}');
+      }]);
+    </script>
+    {% block scripts %}{% endblock %}
+    <!-- Angular End -->
   </head>
-  <body>
+  <body ng-app="ProjektyGminneApp">
     <div class="container">
     <!-- Logo -->
     <div class="columns is-mobile is-centered is-hidden-mobile">
@@ -68,10 +79,10 @@
                   <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">Konkursy</a>
                     <div class="navbar-dropdown">
-                      <a class="navbar-item">Aktywne</a>
-                      <a class="navbar-item">Zakończone</a>
+                      <a href="{% url 'konkursy-aktywne' %}" class="navbar-item">Aktywne</a>
+                      <a href="{% url 'konkursy-zakonczone' %}" class="navbar-item">Zakończone</a>
                       <hr class="navbar-divider">
-                      <a class="navbar-item">Wszystkie</a>
+                      <a href="{% url 'konkursy-wszystkie' %}" class="navbar-item">Wszystkie</a>
                     </div>
                   </div>
                   <!-- Konkursy dropdown End -->

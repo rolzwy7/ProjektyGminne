@@ -7,16 +7,6 @@ CURRENCY = (
 )
 
 
-class Konkurs(models.Model):
-    class Meta:
-        verbose_name_plural = "Konkursy"
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-
-    date_finish = models.DateTimeField(null=False)
-    name = models.CharField(max_length=256, null=False)
-
-
 class Gmina(models.Model):
     class Meta:
         verbose_name_plural = "Gminy"
@@ -43,18 +33,35 @@ class Dzielnica(models.Model):
         return self.name
 
 
+class Konkurs(models.Model):
+    class Meta:
+        verbose_name_plural = "Konkursy"
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    dogrywka = models.BooleanField(default=False)
+
+    dzielnica_id = models.ForeignKey(
+        'Dzielnica', null=False, on_delete=models.CASCADE)
+
+    date_start = models.DateTimeField(null=False)
+    date_finish = models.DateTimeField(null=False)
+
+    name = models.CharField(max_length=256, null=False)
+    # description = models.TextField(max_length=1024, null=False)
+
+    def __str__(self):
+        return self.name
+
+
 class Projekt(models.Model):
     class Meta:
         verbose_name_plural = "Projekty"
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
-    widocznosc = models.BooleanField(default=False)
-
     konkurs_id = models.ForeignKey(
-        'Konkurs', null=True, blank=True, on_delete=models.CASCADE)
-    dzielnica_id = models.ForeignKey(
-        'Dzielnica', null=False, on_delete=models.CASCADE)
+        'Konkurs', on_delete=models.CASCADE)
 
     name = models.CharField(max_length=256, null=False)
 
@@ -69,7 +76,17 @@ class Projekt(models.Model):
     kwota_dofinansowania = models.CharField(max_length=32)
     waluta = models.CharField(choices=CURRENCY, max_length=3, default="PLN")
 
-    attachment = models.FileField(upload_to='attachments/projects')
+    # po zawarciu umowy
+    nr_wniosku = models.CharField(blank=True, null=True, max_length=32)
+    nr_umowy = models.CharField(blank=True, null=True, max_length=32)
+    data_zawarcia_umowy = models.DateField(blank=True, null=True)
+
+    attachment = models.FileField(blank=True, null=True, upload_to='attachments/projects')
+
+    # description = models.TextField(max_length=1024, null=False)
+
+    def __str__(self):
+        return self.name
 
 
 class Glos(models.Model):
@@ -82,6 +99,9 @@ class Glos(models.Model):
 
     projekt_id = models.ForeignKey(
         'Projekt', null=False, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 # Symulacja API

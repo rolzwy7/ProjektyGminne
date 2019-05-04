@@ -7,9 +7,12 @@ from django.conf import settings
 
 from rest_framework import routers
 router = routers.DefaultRouter()
-router.register(r'pesel_check', views.ApiMockDataViewSet)
-router.register(r'dzielnica', views.DzielnicaViewSet)
-router.register(r'gmina', views.GminaViewSet)
+router.register(r'pesel_check', views.ApiMockDataViewSet, 'pesel_check')
+router.register(r'dzielnica', views.DzielnicaViewSet, 'dzielnica')
+router.register(r'glos', views.GlosViewSet, "glos")
+router.register(r'gmina', views.GminaViewSet, 'gmina')
+router.register(r'zakonczone_konkursy', views.ZakonczoneKonkursyViewSet, "zakonczone_konkursy")
+router.register(r'aktywne_konkursy', views.AktywneKonkursyViewSet, "aktywne_konkursy")
 
 urlpatterns = [
     path('admin/', admin.site.urls),

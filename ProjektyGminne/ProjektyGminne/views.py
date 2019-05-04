@@ -5,25 +5,42 @@ from django.views.decorators.http import require_GET
 
 # REST framework
 from rest_framework import viewsets
-from .serializers import ApiMockDataSerializer
-from .serializers import GminaSerializer
-from .serializers import DzielnicaSerializer
-from projekty_gminne.models import ApiMockData, Dzielnica, Gmina
+from . import serializers
+from projekty_gminne import models
+from django.db.models import Q
+from django.utils import timezone
 
 
 class ApiMockDataViewSet(viewsets.ModelViewSet):
-    queryset = ApiMockData.objects.all()
-    serializer_class = ApiMockDataSerializer
+    queryset = models.ApiMockData.objects.all()
+    serializer_class = serializers.ApiMockDataSerializer
 
 
 class GminaViewSet(viewsets.ModelViewSet):
-    queryset = Gmina.objects.all()
-    serializer_class = GminaSerializer
+    queryset = models.Gmina.objects.all()
+    serializer_class = serializers.GminaSerializer
 
 
 class DzielnicaViewSet(viewsets.ModelViewSet):
-    queryset = Dzielnica.objects.all()
-    serializer_class = DzielnicaSerializer
+    queryset = models.Dzielnica.objects.all()
+    serializer_class = serializers.DzielnicaSerializer
+
+
+class GlosViewSet(viewsets.ModelViewSet):
+    queryset = models.Glos.objects.all()
+    serializer_class = serializers.GlosSerializer
+
+
+class AktywneKonkursyViewSet(viewsets.ModelViewSet):
+    queryset = models.Konkurs.objects.filter(
+        Q(date_start__lt=timezone.now()) & Q(date_finish__gt=timezone.now()))
+    serializer_class = serializers.AktywneKonkursySerializer
+
+
+class ZakonczoneKonkursyViewSet(viewsets.ModelViewSet):
+    queryset = models.Konkurs.objects.filter(
+        Q(date_finish__lt=timezone.now()))
+    serializer_class = serializers.ZakonczoneKonkursySerializer
 
 
 class Homepage(generic.View):
@@ -32,5 +49,4 @@ class Homepage(generic.View):
     @method_decorator(require_GET)
     def get(self, request):
         data = {}
-        data["test_data"] = list(range(5))
         return render(request, self.template_name, {"data": data})

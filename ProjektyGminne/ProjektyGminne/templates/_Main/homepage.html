@@ -1,36 +1,45 @@
 {% extends '_Main/template.html' %}
+{% load staticfiles %}
 {% block title %}Projekty Gminne - Strona główna{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/homepage_ctrl.js' %}" charset="utf-8"></script>
+{% endblock %}
 {% block content %}
 
 {% include '_Main/homepage_stats.html' %}
 
-<div class="columns">
+<div class="columns" ng-controller="KonkursyListingCtrl as Ctrl">
 <div class="column is-mobile">
   <h1 class="subtitle" style="margin: 0px 20px;">
     <i class="fas fa-calendar-alt"></i>
     <b>Ostanio dodane konkursy</b>
   </h1>
-  {% for elem in data.test_data %}
-  <article class="media" style="margin: 20px 20px;">
+
+  <article class="media" style="margin: 20px 20px;" ng-repeat="odk in data.odk_array | orderBy:date_start | limitTo:5">
   <div class="media-content">
     <div class="content">
       <p>
         <strong>
-          <a href="#">nazwa_konkursu</a>
+          <a href="#">{a odk.name a}</a>
         </strong>
-        <small>| dodano: ilosc_dni_temu_js</small>
+        <small>| dodano: {a funcs.date_diff_days_from_now(odk.date_start) a}</small>
         <br>
-        <small>Dzielnica: <a href="#">dzielnica</a></small>
+        <small>Dzielnica: <a href="#">{a odk.dzielnica_id.name a}</a></small>
         <br>
-        opis_konkursu
+        {a odk.description a}
         <br>
       </p>
     </div>
     <nav class="level is-mobile">
       <div class="level-left">
         <a class="level-item">
+          <a class="button is-small is-fullwidth is-success">
+            <i class="fas fa-link"></i>&nbsp;Strona konkursu
+          </a>
+        </a>
+        <a class="level-item">
           <a class="button is-small is-fullwidth is-warning">
-            <i class="fas fa-link"></i>&nbsp;Lista projektów
+            <i class="fas fa-list"></i>&nbsp;Lista projektów
           </a>
         </a>
         <a class="level-item">
@@ -47,7 +56,7 @@
     </nav>
   </div>
   </article>
-  {% endfor %}
+  <a class="button is-fullwidth">Zobacz wszystkie aktywne konkursy</a>
 </div>
 
 <div class="column is-mobile">
@@ -55,19 +64,19 @@
     <i class="fas fa-trophy"></i>
     <b>Ostanio zakończone konkursy</b>
   </h1>
-  {% for elem in data.test_data %}
-  <article class="media" style="margin: 20px 20px;">
+
+  <article class="media" style="margin: 20px 20px;" ng-repeat="ozk in data.ozk_array | orderBy:date_start | limitTo:5">
   <div class="media-content">
     <div class="content">
       <p>
         <strong>
-          <a href="#">nazwa_konkursu</a>
+          <a href="#">{a ozk.name a}</a>
         </strong>
-        <small>| zakończono: ilosc_dni_temu_js</small>
+        <small>| zakończono: {a funcs.date_diff_days_from_now(ozk.date_finish) a}</small>
         <br>
-        <small>Dzielnica: <a href="#">dzielnica</a></small>
+        <small>Dzielnica: <a href="#">{a ozk.dzielnica_id.name a}</a></small>
         <br>
-        opis_konkursu
+        {a ozk.description a}
         <br>
 
       </p>
@@ -93,7 +102,7 @@
     </nav>
   </div>
   </article>
-  {% endfor %}
+  <a class="button is-fullwidth">Zobacz wszystkie zakończone konkursy</a>
 </div>
 
 </div>

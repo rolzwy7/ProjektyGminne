@@ -1,28 +1,31 @@
-<div class="columns">
+<div class="columns" ng-controller="HomepageStatsCtrl as Ctrl">
   <div class="column is-mobile">
     <nav class="level">
       <div class="level-item has-text-centered">
         <div>
           <p class="heading">aktywnych konkursów</p>
-          <p class="title">000</p>
+          <p ng-show="data.aktywnych_konkursow.loading == true" class="title"><i class="fas fa-sync fa-spin is-small"></i></p>
+          <p ng-cloak ng-hide="data.aktywnych_konkursow.loading == true" class="title">{a data.aktywnych_konkursow.count a}</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
           <p class="heading">zakończonych konkursów</p>
-          <p class="title">000</p>
+          <p ng-show="data.zakonczonych_konkursow.loading == true" class="title"><i class="fas fa-sync fa-spin is-small"></i></p>
+          <p ng-cloak ng-hide="data.zakonczonych_konkursow.loading == true" class="title">{a data.zakonczonych_konkursow.count a}</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
           <p class="heading">opublikowanych projektów</p>
-          <p class="title">000</p>
+          <p class="title"><i class="fas fa-sync fa-spin is-small"></i></p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
           <p class="heading">oddanych głosów</p>
-          <p class="title">000</p>
+          <p ng-show="data.oddanych_glosow.loading == true" class="title"><i class="fas fa-sync fa-spin is-small"></i></p>
+          <p ng-cloak ng-hide="data.oddanych_glosow.loading == true" class="title">{a data.oddanych_glosow.count a}</p>
         </div>
       </div>
     </nav>
