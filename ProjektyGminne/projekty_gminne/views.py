@@ -10,20 +10,10 @@ from django.db.models import Q
 from django.utils import timezone
 
 
-class SearchTool(generic.View):
-    template_name = "projekty_gminne/search.html"
-
-    @method_decorator(require_GET)
-    def get(self, request):
-        data = {}
-        data["dzielnice"] = models.Dzielnica.objects.all()
-        return render(request, self.template_name, {"data": data})
-
-
 class AktywneKonkursyList(generic.ListView):
     template_name = "projekty_gminne/aktywne_konkursy_list.html"
     model = models.Konkurs
-    paginate_by = 15
+    paginate_by = 10
     title = "Aktywne Konkursy"
 
     def get_queryset(self):
@@ -38,15 +28,25 @@ class AktywneKonkursyList(generic.ListView):
         context["title"] = self.title
         return context
 
+    def get_queryset(self):
+        try:
+            name = self.request.GET['nazwa']
+        except Exception as e:
+            context = self.model.objects.all()
+        else:
+            context = self.model.objects.filter(name__icontains=name)
+        finally:
+            return context
+
 
 class ZakonczoneKonkursyList(generic.ListView):
     template_name = "projekty_gminne/zakonczone_konkursy_list.html"
     model = models.Konkurs
-    paginate_by = 15
+    paginate_by = 10
     title = "Zakończone Konkursy"
 
     def get_queryset(self):
-        context = models.Konkurs.objects.filter(
+        context = self.model.objects.filter(
             Q(date_finish__lt=timezone.now())
         )
         return context
@@ -56,14 +56,56 @@ class ZakonczoneKonkursyList(generic.ListView):
         context["title"] = self.title
         return context
 
+    def get_queryset(self):
+        try:
+            name = self.request.GET['nazwa']
+        except Exception as e:
+            context = self.model.objects.all()
+        else:
+            context = self.model.objects.filter(name__icontains=name)
+        finally:
+            return context
+
 
 class WszystkieKonkursyList(generic.ListView):
     template_name = "projekty_gminne/wszystkie_konkursy_list.html"
     model = models.Konkurs
-    paginate_by = 15
+    paginate_by = 10
     title = "Wszystkie Konkursy"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = self.title
+        return context
+
+    def get_queryset(self):
+        try:
+            name = self.request.GET['nazwa']
+        except Exception as e:
+            context = self.model.objects.all()
+        else:
+            context = self.model.objects.filter(name__icontains=name)
+        finally:
+            return context
+
+
+class KonkursDetail(generic.DetailView):
+    template_name = "projekty_gminne/konkurs_detail.html"
+    model = models.Konkurs
+    title = "Strona Konkursu"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Konkurs: %s" % self.title
+        return context
+
+
+class ProjektDetail(generic.DetailView):
+    template_name = "projekty_gminne/projekt_detail.html"
+    model = models.Projekt
+    title = "Strona Projektu"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Projekt: %s" % self.title
         return context

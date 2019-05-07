@@ -9,18 +9,47 @@
 {% include '_Main/homepage_stats.html' %}
 
 <div class="columns" ng-controller="KonkursyListingCtrl as Ctrl">
+
+  <div ng-class="modal_data.modal_class" ng-controller="HomepageModalCtrl as Ctrl" ng-cloak>
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Lista projektów - {a modal_data.konkurs_data.name a}</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <article class="media" style="margin: 20px 20px;" ng-cloak ng-repeat="p in modal_data.projekt_data">
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <strong>
+                <a href="/konkursy/projekt/{a p.id a}">{a p.name a}</a>
+              </strong>
+            </p>
+          </div>
+        </div>
+        </article>
+      </section>
+      <footer class="modal-card-foot">
+        <a href="/konkursy/konkurs/{a modal_data.konkurs_data.id a}"><button class="button is-success">Strona konkursu</button></a>
+        &emsp;
+        <a ng-click="modal_funcs.closeModal()"><button class="button is-danger">Zamknij</button></a>
+      </footer>
+    </div>
+  </div>
+
 <div class="column is-mobile">
   <h1 class="subtitle" style="margin: 0px 20px;">
     <i class="fas fa-calendar-alt"></i>
     <b>Ostanio dodane konkursy</b>
   </h1>
 
-  <article class="media" style="margin: 20px 20px;" ng-repeat="odk in data.odk_array | orderBy:date_start | limitTo:5">
+  <article class="media" style="margin: 20px 20px;" ng-cloak ng-repeat="odk in data.odk_array | orderBy:date_start | limitTo:4">
   <div class="media-content">
     <div class="content">
       <p>
         <strong>
-          <a href="#">{a odk.name a}</a>
+          <a href="{a funcs.replace_jinja_href('{% url 'konkurs-detail' pk=123 %}', odk.id) a}">{a odk.name a}</a>
         </strong>
         <small>| dodano: {a funcs.date_diff_days_from_now(odk.date_start) a}</small>
         <br>
@@ -33,12 +62,12 @@
     <nav class="level is-mobile">
       <div class="level-left">
         <a class="level-item">
-          <a class="button is-small is-fullwidth is-success">
+          <a href="{a funcs.replace_jinja_href('{% url 'konkurs-detail' pk=123 %}', odk.id) a}" class="button is-small is-fullwidth is-success">
             <i class="fas fa-link"></i>&nbsp;Strona konkursu
           </a>
         </a>
         <a class="level-item">
-          <a class="button is-small is-fullwidth is-warning">
+          <a ng-click="funcs.project_list_emit(odk)" class="button is-small is-fullwidth is-warning">
             <i class="fas fa-list"></i>&nbsp;Lista projektów
           </a>
         </a>
@@ -56,7 +85,8 @@
     </nav>
   </div>
   </article>
-  <a class="button is-fullwidth">Zobacz wszystkie aktywne konkursy</a>
+  <a href="{% url 'konkursy-aktywne' %}" class="button is-fullwidth">
+    Zobacz wszystkie aktywne konkursy</a>
 </div>
 
 <div class="column is-mobile">
@@ -65,12 +95,12 @@
     <b>Ostanio zakończone konkursy</b>
   </h1>
 
-  <article class="media" style="margin: 20px 20px;" ng-repeat="ozk in data.ozk_array | orderBy:date_start | limitTo:5">
+  <article class="media" style="margin: 20px 20px;" ng-cloak ng-repeat="ozk in data.ozk_array | orderBy:date_start | limitTo:4">
   <div class="media-content">
     <div class="content">
       <p>
         <strong>
-          <a href="#">{a ozk.name a}</a>
+          <a href="{a funcs.replace_jinja_href('{% url 'konkurs-detail' pk=123 %}', ozk.id) a}">{a ozk.name a}</a>
         </strong>
         <small>| zakończono: {a funcs.date_diff_days_from_now(ozk.date_finish) a}</small>
         <br>
@@ -84,7 +114,7 @@
     <nav class="level is-mobile">
       <div class="level-left">
         <a class="level-item">
-          <a class="button is-small is-info is-fullwidth">
+          <a href="{a funcs.replace_jinja_href('{% url 'konkurs-detail' pk=123 %}', ozk.id) a}" class="button is-small is-info is-fullwidth">
             <i class="fas fa-chart-area"></i>&nbsp;Zobacz wyniki
           </a>
         </a>
@@ -102,10 +132,12 @@
     </nav>
   </div>
   </article>
-  <a class="button is-fullwidth">Zobacz wszystkie zakończone konkursy</a>
+  <a href="{% url 'konkursy-zakonczone' %}" class="button is-fullwidth">
+    Zobacz wszystkie zakończone konkursy</a>
 </div>
 
 </div>
+
 
 
 {% endblock %}

@@ -1,0 +1,88 @@
+{% extends '_Main/template.html' %}
+{% load staticfiles %}
+{% block title %}Projekty Gminne - Strona główna{% endblock %}
+{% block scripts %}{% endblock %}
+{% block content %}
+  <div class="columns" ng-controller="ProjektViewCtrl as Ctrl">
+    <div class="column is-mobile">
+      <h3 class="subtitle"><b>{{object.name}}</b></h3>
+      <nav class="level">
+        <div class="level-left">
+          Głosów: xyz
+        </div>
+        <div class="level-right">
+          <a class="button is-success"><i class="fas fa-vote-yea"></i>&nbsp;Zagłosuj</a>
+        </div>
+      </nav>
+      <p>
+        <p>{{object.description}}</p>
+      </p>
+      <hr>
+      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+        <tbody>
+          <tr>
+            <td>Instytucja wdrażająca</td>
+            <td>{{object.instytucja_wdrazajaca}}</td>
+          </tr>
+          <tr>
+            <td>Wnioskodawca</td>
+            <td>{{object.wnioskodawca}}</td>
+          </tr>
+          <tr>
+            <td>Okreas realizacji</td>
+            <td>od {{object.okres_realizacji_od|date:"d/m/Y"}} do {{object.okres_realizacji_do|date:"d/m/Y"}}</td>
+          </tr>
+          <tr>
+            <td>Wartość projektu</td>
+            <td>{a data.wartosc_projektu|currency:data.currency a} {{object.waluta}}</td>
+          </tr>
+          <tr>
+            <td>Kwota dofinansowania</td>
+            <td>{a data.kwota_dofinansowania|currency:data.currency a} {{object.waluta}}</td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-download"></i> Załącznik</td>
+            {% if object.attachment %}
+              <td>
+                <a target="_blank" href="{{MEDIA_URL}}{{object.attachment}}" download>
+                  Pobierz
+                </a>
+              </td>
+            {% else %}
+              <td>Brak</td>
+            {% endif %}
+          </tr>
+          {% if object.nr_wniosku and object.nr_umowy and object.data_zawarcia_umowy %}
+          <tr>
+            <td><b>Numer wniosku</b></td>
+            <td>{{object.nr_wniosku}}</td>
+          </tr>
+          <tr>
+            <td><b>Numer umowy</b></td>
+            <td>{{object.nr_umowy}}</td>
+          </tr>
+          <tr>
+            <td><b>Data zawarcia umowy</b></td>
+            <td>{{object.data_zawarcia_umowy}}</td>
+          </tr>
+        {% endif %}
+
+        </tbody>
+      </table>
+
+
+
+    </div>
+  </div>
+  <script type="text/javascript">
+    app.controller("ProjektViewCtrl", function($scope){
+      $scope.data = {
+        wartosc_projektu: "{{object.wartosc_projektu}}",
+        kwota_dofinansowania: "{{object.kwota_dofinansowania}}",
+        currency: ""
+      };
+    });
+  </script>
+
+
+{% endblock %}

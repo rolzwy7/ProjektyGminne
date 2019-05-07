@@ -18,7 +18,8 @@
       <div class="level-item has-text-centered">
         <div>
           <p class="heading">opublikowanych projektów</p>
-          <p class="title"><i class="fas fa-sync fa-spin is-small"></i></p>
+          <p ng-show="data.opublikowanych_projektow.loading == true" class="title"><i class="fas fa-sync fa-spin is-small"></i></p>
+          <p ng-cloak ng-hide="data.opublikowanych_projektow.loading == true" class="title">{a data.opublikowanych_projektow.count a}</p>
         </div>
       </div>
       <div class="level-item has-text-centered">

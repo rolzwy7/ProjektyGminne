@@ -11,6 +11,7 @@ router.register(r'pesel_check', views.ApiMockDataViewSet, 'pesel_check')
 router.register(r'dzielnica', views.DzielnicaViewSet, 'dzielnica')
 router.register(r'glos', views.GlosViewSet, "glos")
 router.register(r'gmina', views.GminaViewSet, 'gmina')
+router.register(r'projekt', views.ProjektViewSet, 'projekt')
 router.register(r'zakonczone_konkursy', views.ZakonczoneKonkursyViewSet, "zakonczone_konkursy")
 router.register(r'aktywne_konkursy', views.AktywneKonkursyViewSet, "aktywne_konkursy")
 
@@ -20,6 +21,8 @@ urlpatterns = [
 
     path('api/q/', include(router.urls)),
     path('api/', include('rest_framework.urls', namespace='rest_framework')),
+
+    path('kfp/<int:pk>', views.ProjektyWKonkursie.as_view(), name="kfp"),
 
     re_path('^$', views.Homepage.as_view(), name="homepage"),
 ]

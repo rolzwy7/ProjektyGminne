@@ -48,7 +48,7 @@ class Konkurs(models.Model):
     date_finish = models.DateTimeField(null=False)
 
     name = models.CharField(max_length=256, null=False)
-    # description = models.TextField(max_length=1024, null=False)
+    description = models.TextField(max_length=1024, null=False, blank=False)
 
     def __str__(self):
         return self.name
@@ -83,7 +83,7 @@ class Projekt(models.Model):
 
     attachment = models.FileField(blank=True, null=True, upload_to='attachments/projects')
 
-    # description = models.TextField(max_length=1024, null=False)
+    description = models.TextField(max_length=1024, null=False)
 
     def __str__(self):
         return self.name

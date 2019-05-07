@@ -1,4 +1,55 @@
-zakonczone konkursy
-{% for element in object_list %}
-  <p>{{ element }} | {{ element.id }}</p>
-{% endfor %}
+{% extends '_Main/template.html' %}
+{% load staticfiles %}
+{% block title %}Projekty Gminne - Strona główna{% endblock %}
+{% block scripts %}{% endblock %}
+{% block content %}
+<div class="columns">
+  <div class="column is-mobile">
+    <h3 class="title has-text-centered">Zakończone Konkursy</h3>
+    {% include '../include/pagination.html' %}
+    {% include '../include/konkurs_search.html' %}
+    <hr>
+    {% for element in object_list %}
+    <article class="media" style="margin: 20px 20px;">
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong>
+            <a href="{% url 'konkurs-detail' pk=element.id %}">{{element.name}}</a>
+          </strong>
+          <small>| zakończono: {{element.date_finish|date:"d/m/Y f:s"}}</small>
+          <br>
+          <small>Dzielnica: <a href="#">{{element.dzielnica_id.name}}</a></small>
+          <br>
+          {{element.description}}
+          <br>
+
+        </p>
+      </div>
+      <nav class="level is-mobile">
+        <div class="level-left">
+          <a class="level-item">
+            <a href="{% url 'konkurs-detail' pk=element.id %}" class="button is-small is-info is-fullwidth">
+              <i class="fas fa-chart-area"></i>&nbsp;Zobacz wyniki
+            </a>
+          </a>
+          <a class="level-item">
+            <a href="https://twitter.com" class="button is-small is-fullwidth">
+              <i class="fab fa-twitter"></i>&nbsp;Retweet
+            </a>
+          </a>
+          <a class="level-item">
+            <a href="https://twitter.com" class="button is-small is-fullwidth">
+              <i class="fab fa-facebook"></i>&nbsp;Udostępnij
+            </a>
+          </a>
+        </div>
+      </nav>
+    </div>
+    </article>
+    {% endfor %}
+    <hr>
+    {% include '../include/pagination.html' %}
+  </div>
+</div>
+{% endblock %}
