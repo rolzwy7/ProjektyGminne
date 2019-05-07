@@ -24,8 +24,12 @@ app.controller("ProjektViewCtrl", function($scope, $http, $timeout){
         $scope.data.vote_loading_visible = true;
 
         $http({
-          method: 'GET',
-          url: '/konkursy/vote?pesel='+$scope.data.pesel+"&pid=" + projekt_id
+          method: 'POST',
+          url: '/konkursy/vote',
+          data: {
+            "pesel": $scope.data.pesel,
+            "project_id": projekt_id
+          }
         }).then(function successCallback(response) {
           console.log(response);
         }, function errorCallback(response) {

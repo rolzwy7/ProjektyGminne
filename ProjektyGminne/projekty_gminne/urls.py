@@ -8,6 +8,6 @@ urlpatterns = [
     path('zakonczone/', views.ZakonczoneKonkursyList.as_view(), name="konkursy-zakonczone"),
     path('konkurs/<int:pk>', views.KonkursDetail.as_view(), name="konkurs-detail"),
     path('projekt/<int:pk>', views.ProjektDetail.as_view(), name="projekt-detail"),
-    path('vote', views.glosuj, name="glosuj-view"),
+    path('vote', views.glosuj_ajax, name="glosuj-view"),
     path('', views.WszystkieKonkursyList.as_view(), name="konkursy-wszystkie"),
 ]

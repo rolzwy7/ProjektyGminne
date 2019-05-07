@@ -29,4 +29,4 @@ class GlosAdmin(admin.ModelAdmin):
 
 @admin.register(models.ApiMockData)
 class ApiMockDataAdmin(admin.ModelAdmin):
-    pass
+    fields = ('pesel', 'dzielnica_id')

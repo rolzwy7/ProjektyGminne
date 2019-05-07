@@ -14,8 +14,13 @@
         {% if active %}
           <span class="tag is-success">Tak</span>
         {% else %}
-          <span class="tag is-danger">Nie</span>
+          <span class="tag is-black">Nie</span>
         {% endif %}
+      </div>
+
+      <div class="tags has-addons">
+        <span class="tag">Dzielnica</span>
+        <span class="tag is-white">{{object.konkurs_id.dzielnica_id}}</span>
       </div>
 
       <nav class="level">
@@ -33,7 +38,7 @@
                 <input ng-model="data.pesel" class="input" type="text" name="pesel" placeholder="Numer PESEL" ng-pattern="data.regexp" required>
               </div>
               <div class="control">
-                <a ng-click="funcs.confirm('{{object.id}}', '{{csrf_token}}')" ng-show="form.pesel.$valid" class="button is-success">
+                <a ng-click="funcs.confirm({{object.id}}, '{{csrf_token}}')" ng-show="form.pesel.$valid" class="button is-success">
                   Zatwierdź
                 </a>
                 <a ng-hide="form.pesel.$valid" class="button">

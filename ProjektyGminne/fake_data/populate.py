@@ -32,8 +32,12 @@ def get_rand_dzielnica():
     return models.Dzielnica.objects.all()[rand]
 
 
-def add_projekty():
-    pass
+def add_mock_pesel_api():
+    obj = models.ApiMockData(
+        dzielnica_id=get_rand_dzielnica(),
+        pesel=str(randint(10000000000, 99999999999))
+    )
+    obj.save()
 
 
 def add_konkurs(active):
@@ -44,14 +48,14 @@ def add_konkurs(active):
         from_ = randint(-60, -30)
         to = randint(-40, -20)
     global KONKURS_GLOBAL_IT
-    dzielnica_name = get_rand_dzielnica().name
+    dzielnica_name = get_rand_dzielnica()
     konkurs = models.Konkurs(
         dogrywka=False,
-        dzielnica_id=get_rand_dzielnica(),
+        dzielnica_id=dzielnica_name,
         description=opis,
         date_start=timezone.now() + timedelta(days=from_),
         date_finish=timezone.now() + timedelta(days=to),
-        name="Konkurs #%s - %s" % (KONKURS_GLOBAL_IT, dzielnica_name)
+        name="Konkurs #%s - %s" % (KONKURS_GLOBAL_IT, dzielnica_name.name)
     )
     print("\t- added:", konkurs)
     konkurs.save()
@@ -123,5 +127,8 @@ def populate():
             add_konkurs(True)
     print("- Adding projekty:")
     add_projekty()
+    for i in range(0, 300+1):
+        print("\rAdding PESEL %s/%s\t" % (i, 300), end="")
+        add_mock_pesel_api()
 
 populate()

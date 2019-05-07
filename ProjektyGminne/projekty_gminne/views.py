@@ -5,9 +5,10 @@ from django.shortcuts import render, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_GET
 from . import models
-from django.http import HttpResponse, HttpResponseNotAllowed
+from django import http
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 from django.db.models import Q
 from django.utils import timezone
@@ -121,10 +122,17 @@ class ProjektDetail(generic.DetailView):
 
 
 @csrf_exempt
-def glosuj(request):
-    if request.method != "GET":
-        return HttpResponseNotAllowed(["GET"])
-    import pdb; pdb.set_trace()
+def glosuj_ajax(request):
+    if request.method != "POST":
+        return http.HttpResponseNotAllowed(["POST"])
+    post_ = json.loads(request.body)
+    projekt_id = post_.get("project_id")
+    pesel = post_.get("pesel")
+    if pesel is None or projekt_id is None:
+        return http.HttpResponseBadRequest()
+    if not isinstance(projekt_id, int):
+        return http.HttpResponseBadRequest()
     # check if pesel correct (in db)
+    # models.
     # save vote
-    return HttpResponse("WUT?")
+    return http.HttpResponse("OK")
