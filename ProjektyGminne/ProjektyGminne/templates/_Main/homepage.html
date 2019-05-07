@@ -8,6 +8,17 @@
 
 {% include '_Main/homepage_stats.html' %}
 
+<style media="screen">
+.modal-card-head {
+  border-top-left-radius: 0px!important;
+  border-top-right-radius: 0px!important;
+}
+.modal-card-foot {
+    border-bottom-left-radius: 0px!important;
+    border-bottom-right-radius: 0px!important;
+}
+</style>
+
 <div class="columns" ng-controller="KonkursyListingCtrl as Ctrl">
 
   <div ng-class="modal_data.modal_class" ng-controller="HomepageModalCtrl as Ctrl" ng-cloak>
@@ -15,7 +26,7 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Lista projektów - {a modal_data.konkurs_data.name a}</p>
-        <button class="delete" aria-label="close"></button>
+        <button ng-click="modal_funcs.closeModal()" class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
         <article class="media" style="margin: 20px 20px;" ng-cloak ng-repeat="p in modal_data.projekt_data">

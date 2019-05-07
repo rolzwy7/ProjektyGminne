@@ -5,6 +5,9 @@ from django.shortcuts import render, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_GET
 from . import models
+from django.http import HttpResponse, HttpResponseNotAllowed
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 from django.db.models import Q
 from django.utils import timezone
@@ -108,4 +111,20 @@ class ProjektDetail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Projekt: %s" % self.title
+
+        context["active"] = False
+        if context["object"].konkurs_id.date_start < timezone.now():
+            if context["object"].konkurs_id.date_finish > timezone.now():
+                context["active"] = True
+
         return context
+
+
+@csrf_exempt
+def glosuj(request):
+    if request.method != "GET":
+        return HttpResponseNotAllowed(["GET"])
+    import pdb; pdb.set_trace()
+    # check if pesel correct (in db)
+    # save vote
+    return HttpResponse("WUT?")

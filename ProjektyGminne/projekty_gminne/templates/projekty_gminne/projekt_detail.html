@@ -1,17 +1,53 @@
 {% extends '_Main/template.html' %}
 {% load staticfiles %}
 {% block title %}Projekty Gminne - Strona główna{% endblock %}
-{% block scripts %}{% endblock %}
+{% block scripts %}
+  <script src="{% static 'js/projekt_ctrl.js' %}" charset="utf-8"></script>
+{% endblock %}
 {% block content %}
   <div class="columns" ng-controller="ProjektViewCtrl as Ctrl">
     <div class="column is-mobile">
       <h3 class="subtitle"><b>{{object.name}}</b></h3>
+
+      <div class="tags has-addons">
+        <span class="tag">Konkurs aktywny</span>
+        {% if active %}
+          <span class="tag is-success">Tak</span>
+        {% else %}
+          <span class="tag is-danger">Nie</span>
+        {% endif %}
+      </div>
+
       <nav class="level">
         <div class="level-left">
-          Głosów: xyz
+          <b>Głosów</b>: 0
         </div>
-        <div class="level-right">
-          <a class="button is-success"><i class="fas fa-vote-yea"></i>&nbsp;Zagłosuj</a>
+        <div class="level-right" ng-cloak>
+          {% if active %}
+            <a ng-show="data.vote_button_visible" ng-class="data.vote_class" ng-disabled="data.vote_temp_disabled" ng-click="funcs.vote_init()">
+              <i class="fas fa-vote-yea"></i>&nbsp;Zagłosuj
+            </a>
+            <form name="form" autocomplete="off">
+            <div ng-show="data.vote_input_visible" class="field has-addons">
+              <div class="control">
+                <input ng-model="data.pesel" class="input" type="text" name="pesel" placeholder="Numer PESEL" ng-pattern="data.regexp" required>
+              </div>
+              <div class="control">
+                <a ng-click="funcs.confirm('{{object.id}}', '{{csrf_token}}')" ng-show="form.pesel.$valid" class="button is-success">
+                  Zatwierdź
+                </a>
+                <a ng-hide="form.pesel.$valid" class="button">
+                  Zatwierdź
+                </a>
+              </div>
+            </div>
+          </form>
+          <span ng-show="data.vote_loading_visible">
+            <i class="fas fa-sync fa-spin"></i>
+          </span>
+          {% else %}
+            <button class="button disabled" disabled><i class="fas fa-vote-yea"></i>&nbsp;Zagłosuj</button>
+          {% endif %}
         </div>
       </nav>
       <p>
@@ -74,15 +110,4 @@
 
     </div>
   </div>
-  <script type="text/javascript">
-    app.controller("ProjektViewCtrl", function($scope){
-      $scope.data = {
-        wartosc_projektu: "{{object.wartosc_projektu}}",
-        kwota_dofinansowania: "{{object.kwota_dofinansowania}}",
-        currency: ""
-      };
-    });
-  </script>
-
-
 {% endblock %}
