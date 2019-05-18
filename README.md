@@ -1,10 +1,6 @@
 # Projekt (Inżynieria Oprogramowania) - "Projekty Gminne"
 Aplikacja internetowa umożliwiająca mieszkańcom gminy głosowanie na wybrane projekty gminne, prowadzone w ramach konkursów organizowanych przez władze gminy.
 
-* * *
-MSMSMS
-* * *
-
 ## Zawartość
 - [Założenia projektowe](#założenia-projektowe)
 - [Do zrobienia](#do-zrobienia)
@@ -103,4 +99,4 @@ Hasło: 123456789
 - Bootstrap 4
 - JQuery 3
 - PopperJS
-- PYTHON 3
+- Python 3
