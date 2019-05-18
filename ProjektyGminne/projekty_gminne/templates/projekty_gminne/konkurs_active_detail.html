@@ -1,0 +1,43 @@
+{% extends '_Main/template.html' %}
+{% load staticfiles %}
+{% block title %}Projekty Gminne - Konkurs{% endblock %}
+{% block scripts %}{% endblock %}
+{% block content %}
+  <div class="columns">
+    <div class="column is-mobile">
+
+      <h3 class="title has-text-centered"><b>{{object.name}}</b></h3>
+      <h3 class="subtitle has-text-centered">od <b>{{object.date_start|date:"d/m/Y f:s"}}</b> do <b>{{object.date_finish|date:"d/m/Y f:s"}}</b></h3>
+
+      <div class="tags has-addons">
+        <span class="tag">Konkurs aktywny</span>
+          {% if active %}
+          <span class="tag is-success">Tak</span>
+          {% else %}
+          <span class="tag is-black">Nie</span>
+          {% endif %}
+      </div>
+
+      <div class="tags has-addons">
+        <span class="tag">Dzielnica</span>
+        <span class="tag is-white">{{object.dzielnica_id}}</span>
+      </div>
+
+      <p>
+        <p>{{object.description}}</p>
+      </p>
+
+      <hr>
+      <h3 class="subtitle"><b><i class="fas fa-list"></i>&nbsp;Projekty</b></h3>
+      <ul>
+        {% for projekt in projekty_list %}
+        <li>
+          <i class="fas fa-long-arrow-alt-right"></i>&nbsp;
+            <a href="/konkursy/projekt/{{projekt.id}}">{{projekt.name}}</a>
+        </li>
+        {% endfor %}
+      </ul>
+      <hr>
+    </div>
+  </div>
+{% endblock %}

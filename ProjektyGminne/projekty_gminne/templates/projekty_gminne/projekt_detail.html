@@ -7,6 +7,13 @@
 {% block content %}
   <div class="columns" ng-controller="ProjektViewCtrl as Ctrl">
     <div class="column is-mobile">
+      <article ng-class="data.message_class" ng-show="data.message_visible" ng-cloak>
+          <div class="message-header">
+            <p>{a data.message_text a}</p>
+            <button class="delete" aria-label="delete" ng-click="data.message_visible = false"></button>
+          </div>
+        </article>
+
       <h3 class="subtitle"><b>{{object.name}}</b></h3>
 
       <div class="tags has-addons">
@@ -25,12 +32,14 @@
 
       <nav class="level">
         <div class="level-left">
-          <b>Głosów</b>: 0
+          <span ng-show="data.vote_num_visible" ng-cloak>
+            <b>Głosów</b>:&nbsp;{a data.after_vote_add + {{vote_count}} a}
+          </span>
         </div>
         <div class="level-right" ng-cloak>
           {% if active %}
             <a ng-show="data.vote_button_visible" ng-class="data.vote_class" ng-disabled="data.vote_temp_disabled" ng-click="funcs.vote_init()">
-              <i class="fas fa-vote-yea"></i>&nbsp;Zagłosuj
+              <i ng-class="data.vote_icon"></i>&nbsp;{a data.button_text a}
             </a>
             <form name="form" autocomplete="off">
             <div ng-show="data.vote_input_visible" class="field has-addons">
@@ -51,7 +60,7 @@
             <i class="fas fa-sync fa-spin"></i>
           </span>
           {% else %}
-            <button class="button disabled" disabled><i class="fas fa-vote-yea"></i>&nbsp;Zagłosuj</button>
+            <button class="button disabled" disabled><i class="fas fa-vote-yea"></i>&nbsp;Projekt nieaktywny</button>
           {% endif %}
         </div>
       </nav>
@@ -75,11 +84,11 @@
           </tr>
           <tr>
             <td>Wartość projektu</td>
-            <td>{a data.wartosc_projektu|currency:data.currency a} {{object.waluta}}</td>
+            <td>{{object.wartosc_projektu}} {{object.waluta}}</td>
           </tr>
           <tr>
             <td>Kwota dofinansowania</td>
-            <td>{a data.kwota_dofinansowania|currency:data.currency a} {{object.waluta}}</td>
+            <td>{{object.kwota_dofinansowania}} {{object.waluta}}</td>
           </tr>
           <tr>
             <td><i class="fas fa-download"></i> Załącznik</td>
@@ -110,6 +119,18 @@
 
         </tbody>
       </table>
+      <hr>
+      <h3 class="subtitle"><b><i class="fas fa-list"></i>&nbsp;Inne projekty w ramach tego konkursu</b></h3>
+      <ul>
+        {% for projekt in other_projects %}
+        {% if projekt.id != object.id %}
+        <li>
+          <i class="fas fa-long-arrow-alt-right"></i>&nbsp;
+            <a href="/konkursy/projekt/{{projekt.id}}">{{projekt.name}}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
 
 
 
