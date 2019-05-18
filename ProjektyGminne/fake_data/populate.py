@@ -1,14 +1,20 @@
 from projekty_gminne import models
+import random
 from random import randint
 from datetime import timedelta
 from django.utils import timezone
+from django.db.models import Q
+import string
 
 
-opis = """Konkurs dotyczny bardzo ważnych rzeczy dotyczących mieszkańców {wstaw_nazwe_dzielnicy_tutej} i te rzeczy bardzo wszyskich interesują i są bardzo ważne"""
+opis = """Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
 print("[*] Fake data populate imported")
 
 KONKURS_GLOBAL_IT = 1
-KONKURSY_NUM = 47
+
+KONKURSY_NUM = 37
+PROJ_PER_KONKURS = [3, 5]
+PESEL_NUM = 100
 
 ORGANIZATIONS_A = [
     "Ministerstwo",
@@ -32,11 +38,32 @@ def get_rand_dzielnica():
     return models.Dzielnica.objects.all()[rand]
 
 
+def add_votes():
+    def randomString(stringLength=10):
+        """Generate a random string of fixed length """
+        letters = string.digits
+        return ''.join(random.choice(letters) for i in range(stringLength))
+    aktywne_projekty = models.Projekt.objects.all()
+
+    aktywne_projekty_len = aktywne_projekty.count()
+    c = 1
+    for ap in aktywne_projekty:
+        rand_votes_num = randint(0, 40)
+        print(
+        "[%s/%s | %.2f%%]" % (c, aktywne_projekty_len, 100 * c/aktywne_projekty_len),
+        "[*] Adding ", rand_votes_num, "votes to", ap, "project")
+        c = c + 1
+        for i in range(0, rand_votes_num):
+            print("\r\t progress: %.2f%%" % (100 * (i+1)/rand_votes_num), end="")
+            obj = models.Glos(name=randomString(stringLength=11), projekt_id=ap)
+            obj.save()
+        print("")
+
+
 def add_mock_pesel_api():
     obj = models.ApiMockData(
         dzielnica_id=get_rand_dzielnica(),
-        pesel=str(randint(10000000000, 99999999999))
-    )
+        pesel=str(randint(10000000000, 99999999999)))
     obj.save()
 
 
@@ -45,8 +72,8 @@ def add_konkurs(active):
         from_ = randint(-30, -10)
         to = randint(10, 30)
     else:
-        from_ = randint(-60, -30)
-        to = randint(-40, -20)
+        from_ = randint(-60, -40)
+        to = randint(-30, -20)
     global KONKURS_GLOBAL_IT
     dzielnica_name = get_rand_dzielnica()
     konkurs = models.Konkurs(
@@ -67,7 +94,7 @@ def add_projekty():
     all_konkurs = models.Konkurs.objects.all()
     all_konkurs_count = models.Konkurs.objects.count()
     for i in range(0, all_konkurs_count):
-        for j in range(0, 4):
+        for j in range(0, randint(PROJ_PER_KONKURS[0], PROJ_PER_KONKURS[1])):
             dofinan = randint(1, 10) * 10 ** randint(5, 6)
             print("\t-Projekt #%s%s" % (i, j))
             proj_obj = models.Projekt(
@@ -127,8 +154,17 @@ def populate():
             add_konkurs(True)
     print("- Adding projekty:")
     add_projekty()
-    for i in range(0, 300+1):
-        print("\rAdding PESEL %s/%s\t" % (i, 300), end="")
+    for i in range(0, PESEL_NUM + 1):
+        print("\rAdding PESEL %s/%s\t" % (i, PESEL_NUM), end="")
         add_mock_pesel_api()
+    print("")
+    add_votes()
+
+
+print("Konkursy   :", KONKURSY_NUM)
+print("Projekty   : od", PROJ_PER_KONKURS[0], "do", PROJ_PER_KONKURS[1])
+print("PESEL num. :", PESEL_NUM)
+input("\n\n<enter>")
+print("\n\n")
 
 populate()

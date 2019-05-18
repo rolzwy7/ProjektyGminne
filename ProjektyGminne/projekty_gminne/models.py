@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 CURRENCY = (
     ('PLN', 'PLN'),
@@ -52,6 +53,10 @@ class Konkurs(models.Model):
 
     def __str__(self):
         return self.name
+
+    def is_active(self):
+        now = timezone.now()
+        return now > self.date_start and now < self.date_finish
 
 
 class Projekt(models.Model):

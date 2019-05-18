@@ -4,7 +4,11 @@ from projekty_gminne import models
 
 @admin.register(models.Konkurs)
 class KonkursAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['__str__', 'is_active']
+
+    def is_active(self, obj):
+        return obj.is_active()
+    is_active.boolean = True
 
 
 @admin.register(models.Gmina)
@@ -29,4 +33,4 @@ class GlosAdmin(admin.ModelAdmin):
 
 @admin.register(models.ApiMockData)
 class ApiMockDataAdmin(admin.ModelAdmin):
-    fields = ('pesel', 'dzielnica_id')
+    list_display = ['pesel', 'dzielnica_id']

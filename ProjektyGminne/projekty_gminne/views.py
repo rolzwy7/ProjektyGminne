@@ -20,13 +20,6 @@ class AktywneKonkursyList(generic.ListView):
     paginate_by = 10
     title = "Aktywne Konkursy"
 
-    # def get_queryset(self):
-    #     context = models.Konkurs.objects.filter(
-    #         Q(date_start__lt=timezone.now()) &
-    #         Q(date_finish__gt=timezone.now())
-    #     )
-    #     return context
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = self.title
@@ -55,12 +48,6 @@ class ZakonczoneKonkursyList(generic.ListView):
     model = models.Konkurs
     paginate_by = 10
     title = "Zakończone Konkursy"
-
-    # def get_queryset(self):
-    #     context = self.model.objects.filter(
-    #         Q(date_finish__lt=timezone.now())
-    #     )
-    #     return context
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
