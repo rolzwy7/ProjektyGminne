@@ -3,8 +3,101 @@
 {% block title %}Projekty Gminne - Strona główna{% endblock %}
 {% block scripts %}{% endblock %}
 {% block content %}
-konkurs detail INACTIVE
-<hr>
-https://www.chartjs.org/
-{{object}}
+<script type="text/javascript">
+  app.controller("KonkursZak", function($scope){
+    var barChartData = {
+      labels: [
+        {% for e in votes %}
+          '{{e.projekt_name}}',
+        {% endfor %}
+      ],
+      datasets: [
+        {% for vote1 in votes %}
+        {
+        label: '{{vote1.projekt_name}}',
+        backgroundColor: "#42A5F5",
+        borderWidth: 1,
+        data: [
+          {% for vote2 in votes %}
+            {% if vote1.projekt_id == vote2.projekt_id %}{{vote2.votes_count}},{% else %}0,{% endif %}
+          {% endfor %}
+        ]
+      },
+      {% endfor %}
+    ]
+    };
+    $scope.functions = {
+      init: function() {
+        var ctx = document.getElementById('canvas').getContext('2d');
+        window.myBar = new Chart(ctx, {
+          type: 'bar',
+          data: barChartData,
+          options: {
+            responsive: true,
+            legend: {
+              position: 'top',
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'Wyniki głosowania'
+            }
+          }
+        });
+      }
+    };
+
+    $scope.functions.init();
+  });
+</script>
+<div class="columns" ng-controller="KonkursZak as Ctrl">
+    <div class="column is-mobile">
+
+      <h3 class="title has-text-centered"><b>{{object.name}}</b></h3>
+      <h3 class="subtitle has-text-centered">Zakończono <b>{{object.date_finish|date:"Y/m/d H:i:s"}}</b></h3>
+
+      <div class="tags has-addons">
+        <span class="tag">Konkurs aktywny</span>
+          {% if active %}
+          <span class="tag is-success">Tak</span>
+          {% else %}
+          <span class="tag is-black">Nie</span>
+          {% endif %}
+      </div>
+
+      <div class="tags has-addons">
+        <span class="tag">Dzielnica</span>
+        <span class="tag is-black">{{object.dzielnica_id}}</span>
+      </div>
+
+      <p>
+        <p>{{object.description}}</p>
+      </p>
+
+      <hr>
+      <h3 class="subtitle"><b><i class="fas fa-list"></i>&nbsp;Wynik głosowania</b></h3>
+
+      <h3 class="subtitle has-text-centered">Zwycięski projekt: <b><a href="/konkursy/projekt/{{winner_ids}}">{{winner_name}}</a></b></h3>
+
+      <div class="columns">
+        <div class="column is-2"></div>
+        <div class="column is-8">
+          <canvas id="canvas" style="display: block; width: 460px; height: 230px;" width="460" height="230" class="chartjs-render-monitor"></canvas>
+        </div>
+        <div class="column is-2"></div>
+      </div>
+
+      <hr>
+      <h3 class="subtitle"><b><i class="fas fa-list"></i>&nbsp;Projekty</b></h3>
+      <ul>
+        {% for projekt in projekty_list %}
+        <li>
+          <i class="fas fa-long-arrow-alt-right"></i>&nbsp;
+            <a href="/konkursy/projekt/{{projekt.id}}">{{projekt.name}}</a>
+        </li>
+        {% endfor %}
+      </ul>
+      <hr>
+    </div>
+  </div>
 {% endblock %}

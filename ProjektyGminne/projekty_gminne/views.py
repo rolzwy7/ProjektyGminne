@@ -1,3 +1,5 @@
+import re
+
 from django.shortcuts import render
 
 from django.views import generic
@@ -12,6 +14,7 @@ import json
 
 from django.db.models import Q
 from django.utils import timezone
+from datetime import timedelta
 
 
 class AktywneKonkursyList(generic.ListView):
@@ -111,6 +114,44 @@ class KonkursDetail(generic.DetailView):
             context["projekty_list"] = models.Projekt.objects.filter(konkurs_id=context["object"])
         else:
             self.template_name = "projekty_gminne/konkurs_inactive_detail.html"
+            context["projekty_list"] = models.Projekt.objects.filter(konkurs_id=context["object"])
+            context["votes"] = []
+            for _ in context["projekty_list"]:
+                context["votes"].append({
+                    "projekt_name": _.name,
+                    "projekt_id": _.id,
+                    "votes_count": models.Glos.objects.filter(projekt_id=_).count()
+                })
+            winner = 0
+            winner_name = "<error>"
+            winner_id = 123
+            for _ in context["votes"]:
+                if winner < _["votes_count"]:
+                    winner = _["votes_count"]
+                    winner_name = _["projekt_name"]
+                    winner_id = _["projekt_id"]
+            context["winner_name"] = winner_name
+            context["winner_id"] = winner_id
+
+            # dogrywka
+            dogrywka_flag = False
+            for i in context["votes"]:
+                for j in context["votes"]:
+                    if i["projekt_id"] == j["projekt_id"]:
+                        continue
+                    if i["votes_count"] == j["votes_count"]:
+                        if winner == i["votes_count"]:
+                            dogrywka_flag = True
+            context["dogrywka"] = dogrywka_flag
+
+            if dogrywka_flag:
+                obj = models.Konkurs.objects.get(id=self.object.id)
+                obj.dogrywka = True
+                obj.date_finish = timezone.now() + timedelta(days=3)
+                obj.save()
+                self.template_name = "projekty_gminne/konkurs_active_detail.html"
+                context["active"] = True
+                del context["votes"]
 
         return context
 
@@ -146,9 +187,17 @@ def glosuj_ajax(request):
     post_ = json.loads(request.body)
     projekt_id = post_.get("project_id")
     pesel = post_.get("pesel")
+
     if pesel is None or projekt_id is None:
         return http.HttpResponseBadRequest()
     if not isinstance(projekt_id, int):
+        return http.HttpResponseBadRequest()
+    if not isinstance(pesel, str):
+        return http.HttpResponseBadRequest()
+    # validate pesel
+    if len(pesel) != 11:
+        return http.HttpResponseBadRequest()
+    if re.match("^[0-9]{11}$", pesel) is None:
         return http.HttpResponseBadRequest()
 
     # Check if already voted

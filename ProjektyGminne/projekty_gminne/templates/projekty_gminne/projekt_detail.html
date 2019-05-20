@@ -14,7 +14,13 @@
           </div>
         </article>
 
-      <h3 class="subtitle"><b>{{object.name}}</b></h3>
+      <h3 class="subtitle has-text-centered"><b>{{object.name}}</b></h3>
+      <hr>
+      <h3 class="subtitle has-text-centered">
+        <a href="{% url 'konkurs-detail' pk=object.konkurs_id.id %}">
+          <b><i class="fas fa-link"></i>&nbsp;Strona konkursu</b>
+        </a>
+      </h3>
 
       <div class="tags has-addons">
         <span class="tag">Konkurs aktywny</span>
@@ -119,12 +125,6 @@
 
         </tbody>
       </table>
-      <hr>
-      <h3 class="subtitle has-text-centered">
-        <a href="{% url 'konkurs-detail' pk=object.konkur_id.id %}">
-          <b><i class="fas fa-link"></i>&nbsp;Strona konkursu</b>
-        </a>
-      </h3>
       <hr>
       <h3 class="subtitle"><b><i class="fas fa-list"></i>&nbsp;Inne projekty w ramach tego konkursu</b></h3>
       <ul>

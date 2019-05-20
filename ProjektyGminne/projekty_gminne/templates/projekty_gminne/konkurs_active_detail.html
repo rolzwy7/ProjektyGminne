@@ -3,24 +3,73 @@
 {% block title %}Projekty Gminne - Konkurs{% endblock %}
 {% block scripts %}{% endblock %}
 {% block content %}
-  <div class="columns">
+<script type="text/javascript">
+  app.controller("KonkursAvtcCtrl", function($scope, $interval, $timeout){
+    $scope.data = {
+      finish: '{{object.date_finish|date:"Y/m/d H:i:s"}}',
+      time_left: ''
+    };
+
+    $scope.func = {
+      date_diff_days_from_now: function(date_) {
+        var base_ = new Date(date_) - new Date()
+
+        var dni = base_ / (1000*60*60*24);
+        dni_f = Math.floor(dni);
+
+        var godzin = (dni - dni_f) * 24;
+        var godzin_f = Math.floor(godzin);
+
+        var minut = (godzin - godzin_f) * 60;
+        var minut_f = Math.floor(minut);
+
+        var sekund = (minut - minut_f) * 60;
+        var sekund_f = Math.floor(sekund);
+
+        var prefix = (dni_f == 1) ? "pozostał":"pozostało";
+        ret = prefix + " " + dni_f.toString() + "d ";
+        ret += (godzin_f < 10) ? "0" + godzin_f.toString() + "g ": godzin_f.toString() + "g ";
+        ret += (minut_f < 10) ? "0" + minut_f.toString() + "m ": minut_f.toString() + "m ";
+        ret += (sekund_f < 10) ? "0" + sekund_f.toString() + "s ": sekund_f.toString() + "s ";
+        return ret
+      },
+      time_left_f: function() {
+        $scope.data.time_left = $scope.func.date_diff_days_from_now($scope.data.finish);
+      }
+    };
+
+    $interval(function(){
+      $scope.func.time_left_f()
+    }, 1000);
+
+  });
+</script>
+<div class="columns" ng-controller="KonkursAvtcCtrl as Ctrl">
     <div class="column is-mobile">
 
       <h3 class="title has-text-centered"><b>{{object.name}}</b></h3>
-      <h3 class="subtitle has-text-centered">od <b>{{object.date_start|date:"d/m/Y f:s"}}</b> do <b>{{object.date_finish|date:"d/m/Y f:s"}}</b></h3>
+      <h3 class="subtitle has-text-centered">od <b>{{object.date_start|date:"Y/m/d H:i:s"}}</b> do <b>{{object.date_finish|date:"Y/m/d H:i:s"}}</b></h3>
+      <h3 class="subtitle has-text-centered" ng-cloak>{a data.time_left a}</b></h3>
 
       <div class="tags has-addons">
         <span class="tag">Konkurs aktywny</span>
           {% if active %}
           <span class="tag is-success">Tak</span>
+
+          {% if object.dogrywka or dogrywka %}
+            <span class="tag is-danger">Dogrywka</span>
+          {% endif %}
+
           {% else %}
           <span class="tag is-black">Nie</span>
           {% endif %}
+
+
       </div>
 
       <div class="tags has-addons">
         <span class="tag">Dzielnica</span>
-        <span class="tag is-white">{{object.dzielnica_id}}</span>
+        <span class="tag is-info">{{object.dzielnica_id}}</span>
       </div>
 
       <p>

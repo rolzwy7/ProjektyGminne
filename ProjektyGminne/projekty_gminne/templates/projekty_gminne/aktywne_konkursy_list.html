@@ -17,7 +17,7 @@
           <strong>
             <a href="{% url 'konkurs-detail' pk=element.id %}">{{element.name}}</a>
           </strong>
-          <small>| koniec: {{element.date_finish|date:"d/m/Y f:s"}}</small>
+          <small>| koniec: {{element.date_finish|date:"Y/m/d H:i:s"}}</small>
           <br>
           <small>Dzielnica: <a href="#">{{element.dzielnica_id.name}}</a></small>
           <br>
