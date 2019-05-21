@@ -3,6 +3,7 @@ from django.urls import path, include, re_path
 from ProjektyGminne import views
 from django.conf.urls.static import static
 from django.conf import settings
+from projekty_gminne.admin import admin_site
 
 
 from rest_framework import routers
@@ -16,14 +17,13 @@ router.register(r'zakonczone_konkursy', views.ZakonczoneKonkursyViewSet, "zakonc
 router.register(r'aktywne_konkursy', views.AktywneKonkursyViewSet, "aktywne_konkursy")
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('django_admin/', admin.site.urls),
+    path('admin/', admin_site.urls),
+    path('django_admin/', admin.site.urls),
     path('konkursy/', include('projekty_gminne.urls')),
-
     path('api/q/', include(router.urls)),
     path('api/', include('rest_framework.urls', namespace='rest_framework')),
-
     path('kfp/<int:pk>', views.ProjektyWKonkursie.as_view(), name="kfp"),
-
     re_path('^$', views.Homepage.as_view(), name="homepage"),
 ]
 
