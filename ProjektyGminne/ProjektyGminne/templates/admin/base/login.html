@@ -1,4 +1,4 @@
-{% extends "admin/base_site.html" %}
+{% extends "admin/base_site_c.html" %}
 {% load i18n static %}
 
 {% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}">
@@ -41,8 +41,45 @@
 </p>
 {% endif %}
 
-<form action="{{ app_path }}" method="post" id="login-form" autocomplete="off">{% csrf_token %}
-  <div class="form-row">CUSTOM
+<form action="{{ app_path }}" method="post" id="login-form" autocomplete="off">
+  {% csrf_token %}
+  <div class="columns">
+    <div class="column">
+      <div class="field">
+      {{ form.username.errors }}
+      <p class="control has-icons-left has-icons-right">
+      <input class="input" name="username" type="text" placeholder="Użytkownik">
+      <span class="icon is-small is-left">
+        <i class="fas fa-user"></i>
+      </span>
+    </p>
+  </div>
+  <div class="field">
+    {{ form.password.errors }}
+    <p class="control has-icons-left">
+      <input class="input" name="password" type="password" placeholder="Hasło">
+      <span class="icon is-small is-left">
+        <i class="fas fa-lock"></i>
+      </span>
+    </p>
+  </div>
+  <!-- <div class="password-reset-link">
+    <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
+  </div> -->
+  <div class="field">
+    <p class="control">
+      <button class="button is-info is-fullwidth">
+        Zaloguj
+      </button>
+    </p>
+  </div>
+    </div>
+  </div>
+  <input type="hidden" name="next" value="{{ next }}">
+</form>
+
+<!-- <form action="{{ app_path }}" method="post" id="login-form" autocomplete="off">{% csrf_token %}
+  <div class="form-row">
     {{ form.username.errors }}
     {{ form.username.label_tag }} {{ form.username }}
   </div>
@@ -60,7 +97,7 @@
   <div class="submit-row">
     <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}">
   </div>
-</form>
+</form> -->
 
 </div>
 {% endblock %}
