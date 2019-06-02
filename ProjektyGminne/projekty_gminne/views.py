@@ -95,6 +95,28 @@ class WszystkieKonkursyList(generic.ListView):
             return context
 
 
+class WszystkieProjektyList(generic.ListView):
+    template_name = "projekty_gminne/wszystkie_projekty_list.html"
+    model = models.Projekt
+    paginate_by = 30
+    title = "Wszystkie Projekty"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = self.title
+        return context
+
+    def get_queryset(self):
+        try:
+            name = self.request.GET['nazwa']
+        except Exception as e:
+            context = self.model.objects.all()
+        else:
+            context = self.model.objects.filter(name__icontains=name)
+        finally:
+            return context
+
+
 class KonkursDetail(generic.DetailView):
     template_name = "projekty_gminne/konkurs_detail.html"
     model = models.Konkurs

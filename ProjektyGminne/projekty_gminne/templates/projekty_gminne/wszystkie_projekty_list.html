@@ -1,0 +1,54 @@
+{% extends '_Main/template.html' %}
+{% load staticfiles %}
+{% block title %}Projekty Gminne - Strona główna{% endblock %}
+{% block scripts %}{% endblock %}
+{% block content %}
+<div class="columns">
+<div class="column is-mobile">
+  <h3 class="title has-text-centered">Wszystkie Konkursy</h3>
+  {% include '../include/pagination.html' %}
+  {% include '../include/konkurs_search.html' %}
+  <hr>
+  {% for element in object_list %}
+  <article class="media" style="margin: 20px 20px;">
+  <div class="media-content">
+    <div class="content">
+      <p>
+        <strong>
+          <a href="/konkursy/projekt/{{element.id}}">{{element.name}}</a>
+        </strong>
+        <br>
+        <small>Dzielnica: <a href="#">{{element.konkurs_id.dzielnica_id.name}}</a></small>
+        <br>
+        {{element.description}}
+        <br>
+
+      </p>
+    </div>
+    <nav class="level is-mobile">
+      <div class="level-left">
+        <a class="level-item">
+          <a href="{% url 'konkurs-detail' pk=element.konkurs_id.id %}" class="button is-small is-fullwidth">
+            <i class="fas fa-link"></i>&nbsp;Strona konkursu
+          </a>
+        </a>
+        <a class="level-item">
+          <a href="https://twitter.com" class="button is-small is-fullwidth">
+            <i class="fab fa-twitter"></i>&nbsp;Retweet
+          </a>
+        </a>
+        <a class="level-item">
+          <a href="https://twitter.com" class="button is-small is-fullwidth">
+            <i class="fab fa-facebook"></i>&nbsp;Udostępnij
+          </a>
+        </a>
+      </div>
+    </nav>
+  </div>
+  </article>
+  {% endfor %}
+  <hr>
+  {% include '../include/pagination.html' %}
+</div>
+</div>
+{% endblock %}

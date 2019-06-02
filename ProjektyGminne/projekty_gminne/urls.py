@@ -8,6 +8,7 @@ urlpatterns = [
     path('zakonczone/', views.ZakonczoneKonkursyList.as_view(), name="konkursy-zakonczone"),
     path('konkurs/<int:pk>', views.KonkursDetail.as_view(), name="konkurs-detail"),
     path('projekt/<int:pk>', views.ProjektDetail.as_view(), name="projekt-detail"),
+    path('projekty/', views.WszystkieProjektyList.as_view(), name="projekt-listing"),
     path('vote', views.glosuj_ajax, name="glosuj-view"),
     path('', views.WszystkieKonkursyList.as_view(), name="konkursy-wszystkie"),
 ]
